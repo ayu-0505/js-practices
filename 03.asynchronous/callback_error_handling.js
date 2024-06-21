@@ -15,8 +15,8 @@ db.run(
         console.log(err.message);
       } else {
         console.log(data);
+        db.close();
       }
     });
   },
 );
-db.close();
