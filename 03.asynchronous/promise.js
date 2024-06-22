@@ -20,6 +20,6 @@ promiseRun(
   .then((row) => {
     console.log(row);
   })
-  .then(() => {
+  .finally(() => {
     db.close();
   });

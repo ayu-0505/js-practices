@@ -22,6 +22,6 @@ promiseRun(
   .catch((err) => {
     console.error(err.message);
   })
-  .then(() => {
+  .finally(() => {
     db.close();
   });

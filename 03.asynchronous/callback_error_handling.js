@@ -9,12 +9,10 @@ db.run(
       if (err) {
         console.log(err.message);
       }
-    }).get("SELECT * FROM book", (err, data) => {
+    }).get("SELECT * FROM book", (err) => {
       // booksをbookにして処理
       if (err) {
         console.log(err.message);
-      } else {
-        console.log(data);
         db.close();
       }
     });
