@@ -14,13 +14,13 @@ const db = new sqlite3.Database(":memory:");
       "吾輩は猫である(async/await版)",
     ]);
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
   try {
     // booksをbookにして処理
     await promiseGet(db, "SELECT * FROM book");
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
   db.close();
 })();

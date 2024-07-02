@@ -7,12 +7,12 @@ db.run(
     db.run("INSERT INTO books(titl) VALUES(?)", ["吾輩は猫である"], (err) => {
       // titleをtitlにして処理
       if (err) {
-        console.log(err.message);
+        console.error(err.message);
       }
     }).get("SELECT * FROM book", (err) => {
       // booksをbookにして処理
       if (err) {
-        console.log(err.message);
+        console.error(err.message);
         db.close();
       }
     });
