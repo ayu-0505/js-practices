@@ -13,12 +13,20 @@ try {
     "吾輩は猫である(async/await版)",
   ]);
 } catch (error) {
-  console.error(error.message);
+  if (error.code === "SQLITE_ERROR") {
+    console.error(error.message);
+  } else {
+    throw error;
+  }
 }
 try {
   // booksをbookにして処理
   await promiseGet(db, "SELECT * FROM book");
 } catch (error) {
-  console.error(error.message);
+  if (error.code === "SQLITE_ERROR") {
+    console.error(error.message);
+  } else {
+    throw error;
+  }
 }
 db.close();
