@@ -6,20 +6,12 @@ promiseRun(
   db,
   "CREATE TABLE books(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
 )
-  .then(() => {
-    return promiseRun(db, "INSERT INTO books(title) VALUES(?)", [
+  .then(() =>
+    promiseRun(db, "INSERT INTO books(title) VALUES(?)", [
       "吾輩は猫である(Promise版)",
-    ]);
-  })
-  .then((state) => {
-    console.log(`ID: ${state.lastID}`);
-  })
-  .then(() => {
-    return promiseGet(db, "SELECT * FROM books");
-  })
-  .then((row) => {
-    console.log(row);
-  })
-  .finally(() => {
-    db.close();
-  });
+    ]),
+  )
+  .then((state) => console.log(`ID: ${state.lastID}`))
+  .then(() => promiseGet(db, "SELECT * FROM books"))
+  .then((row) => console.log(row))
+  .finally(() => db.close());
