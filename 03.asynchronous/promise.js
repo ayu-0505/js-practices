@@ -11,7 +11,7 @@ promiseRun(
       "吾輩は猫である(Promise版)",
     ]),
   )
-  .then((state) => console.log(`ID: ${state.lastID}`))
+  .then((details) => console.log(`ID: ${details.lastID}`))
   .then(() => promiseGet(db, "SELECT * FROM books"))
   .then((row) => console.log(row))
   .then(() => db.close());

@@ -9,8 +9,8 @@ db.run(
       ["吾輩は猫である"],
       function () {
         console.log(`ID: ${this.lastID}`);
-        db.get("SELECT * FROM books", (_err, data) => {
-          console.log(data);
+        db.get("SELECT * FROM books", (_err, row) => {
+          console.log(row);
           db.close();
         });
       },

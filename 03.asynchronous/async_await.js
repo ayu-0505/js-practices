@@ -12,7 +12,7 @@ const db = new sqlite3.Database(":memory:");
     "吾輩は猫である(async/await版)",
   ]);
   console.log(`ID: ${state.lastID}`);
-  const data = await promiseGet(db, "SELECT * FROM books");
-  console.log(data);
+  const row = await promiseGet(db, "SELECT * FROM books");
+  console.log(row);
   db.close();
 })();
