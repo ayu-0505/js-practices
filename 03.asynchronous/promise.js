@@ -14,4 +14,4 @@ promiseRun(
   .then((state) => console.log(`ID: ${state.lastID}`))
   .then(() => promiseGet(db, "SELECT * FROM books"))
   .then((row) => console.log(row))
-  .finally(() => db.close());
+  .then(() => db.close());

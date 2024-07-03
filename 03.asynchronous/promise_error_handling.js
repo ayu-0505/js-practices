@@ -18,4 +18,4 @@ promiseRun(
     promiseGet(db, "SELECT * FROM book"),
   )
   .catch((err) => console.error(err.message))
-  .finally(() => db.close());
+  .then(() => db.close());

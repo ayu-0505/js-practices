@@ -13,8 +13,8 @@ db.run(
       // booksをbookにして処理
       if (err) {
         console.error(err.message);
-        db.close();
       }
+      db.close();
     });
   },
 );
