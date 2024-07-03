@@ -1,5 +1,5 @@
 import sqlite3 from "sqlite3";
-import { promiseRun, promiseGet } from "./promise_functions.js";
+import { promiseRun, promiseGet } from "./promisify_db_functions.js";
 
 const db = new sqlite3.Database(":memory:");
 
