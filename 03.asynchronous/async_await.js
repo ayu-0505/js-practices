@@ -7,10 +7,10 @@ await promiseRun(
   db,
   "CREATE TABLE books(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
 );
-const details = await promiseRun(db, "INSERT INTO books(title) VALUES(?)", [
+const update = await promiseRun(db, "INSERT INTO books(title) VALUES(?)", [
   "吾輩は猫である(async/await版)",
 ]);
-console.log(`ID: ${details.lastID}`);
+console.log(`ID: ${update.lastID}`);
 const row = await promiseGet(db, "SELECT * FROM books");
 console.log(row);
 db.close();
