@@ -17,8 +17,8 @@ try {
     "吾輩は猫である(async/await版)",
   ]);
 } catch (error) {
-  if (error.code === "SQLITE_ERROR") {
-    console.error(error.message);
+  if (error instanceof Error && error.code === "SQLITE_ERROR") {
+    console.error(error.message); // error.messageに戻しておくこと
   } else {
     throw error;
   }
