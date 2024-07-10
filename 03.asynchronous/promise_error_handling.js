@@ -12,10 +12,14 @@ promiseRun(
       "吾輩は猫である(Promise版)",
     ]),
   )
-  .catch((err) => console.error(err.message))
+  .catch((err) => {
+    console.error(err.message);
+  })
   .then(() =>
     // booksをbookにして処理
     promiseGet(db, "SELECT * FROM book"),
   )
-  .catch((err) => console.error(err.message))
+  .catch((err) => {
+    console.error(err.message);
+  })
   .then(() => db.close());
