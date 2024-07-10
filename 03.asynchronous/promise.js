@@ -1,5 +1,9 @@
 import sqlite3 from "sqlite3";
-import { promiseRun, promiseGet } from "./db_functions_wrapped_by_promise.js";
+import {
+  promiseRun,
+  promiseGet,
+  promiseClose,
+} from "./db_functions_wrapped_by_promise.js";
 
 const db = new sqlite3.Database(":memory:");
 promiseRun(
@@ -17,5 +21,5 @@ promiseRun(
   })
   .then((row) => {
     console.log(row);
-    db.close();
+    promiseClose(db);
   });

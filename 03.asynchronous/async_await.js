@@ -1,5 +1,9 @@
 import sqlite3 from "sqlite3";
-import { promiseRun, promiseGet } from "./db_functions_wrapped_by_promise.js";
+import {
+  promiseRun,
+  promiseGet,
+  promiseClose,
+} from "./db_functions_wrapped_by_promise.js";
 
 const db = new sqlite3.Database(":memory:");
 
@@ -13,4 +17,4 @@ const update = await promiseRun(db, "INSERT INTO books(title) VALUES(?)", [
 console.log(`ID: ${update.lastID}`);
 const row = await promiseGet(db, "SELECT * FROM books");
 console.log(row);
-db.close();
+promiseClose(db);

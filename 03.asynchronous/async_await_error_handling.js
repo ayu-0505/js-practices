@@ -1,5 +1,9 @@
 import sqlite3 from "sqlite3";
-import { promiseRun, promiseGet } from "./db_functions_wrapped_by_promise.js";
+import {
+  promiseRun,
+  promiseGet,
+  promiseClose,
+} from "./db_functions_wrapped_by_promise.js";
 
 const db = new sqlite3.Database(":memory:");
 
@@ -23,10 +27,10 @@ try {
   // booksをbookにして処理
   await promiseGet(db, "SELECT * FROM book");
 } catch (error) {
-  if (error.code === "SQLITE_ERROR") {
-    console.error(error.message);
+  if (error instanceof Error && error.code === "SQLITE_ERROR") {
+    console.error(error.message); // error.messageに戻しておくこと
   } else {
     throw error;
   }
 }
-db.close();
+promiseClose(db);
