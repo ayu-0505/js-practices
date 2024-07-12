@@ -18,7 +18,7 @@ try {
   ]);
 } catch (error) {
   if (error instanceof Error && error.code === "SQLITE_ERROR") {
-    console.error(error.message); // error.messageに戻しておくこと
+    console.error(error.message);
   } else {
     throw error;
   }
@@ -28,7 +28,7 @@ try {
   await promiseGet(db, "SELECT * FROM book");
 } catch (error) {
   if (error instanceof Error && error.code === "SQLITE_ERROR") {
-    console.error(error.message); // error.messageに戻しておくこと
+    console.error(error.message);
   } else {
     throw error;
   }
