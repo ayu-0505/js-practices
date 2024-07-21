@@ -22,5 +22,5 @@ promiseRun(
   })
   .then((row) => {
     console.log(row);
-    promiseClose(db);
+    return promiseClose(db);
   });
