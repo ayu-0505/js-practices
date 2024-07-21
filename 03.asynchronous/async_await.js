@@ -17,4 +17,4 @@ const update = await promiseRun(db, "INSERT INTO books(title) VALUES(?)", [
 console.log(`ID: ${update.lastID}`);
 const row = await promiseGet(db, "SELECT * FROM books");
 console.log(row);
-promiseClose(db);
+await promiseClose(db);
