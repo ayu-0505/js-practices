@@ -3,7 +3,7 @@ import {
   promiseRun,
   promiseGet,
   promiseClose,
-} from "./db_functions_wrapped_by_promise.js";
+} from "./promise_based_db_functions.js";
 
 const db = new sqlite3.Database(":memory:");
 
