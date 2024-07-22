@@ -33,4 +33,4 @@ try {
     throw error;
   }
 }
-promiseClose(db);
+await promiseClose(db);
