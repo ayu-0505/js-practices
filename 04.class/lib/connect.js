@@ -5,10 +5,6 @@ export class Connect {
     this.db = new sqlite3.Database("./db/memo.db");
   }
 
-  // deleteTable() {
-  //   this.#promiseRun("DROP TABLE notes");
-  // }
-
   createTable() {
     this.#promiseBasedRun(
       "CREATE TABLE IF NOT EXISTS notes(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT)",
