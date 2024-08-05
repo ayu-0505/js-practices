@@ -19,7 +19,7 @@ export class Connect {
   }
 
   fetchAllNotes() {
-    return this.#promiseBasedAll("SELECT * FROM notes", []);
+    return this.#promiseBasedAll("SELECT * FROM notes ORDER BY id ASC", []);
   }
 
   deleteNote(id) {
