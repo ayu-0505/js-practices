@@ -21,11 +21,13 @@ export class Controller {
 
   async seeAllTitles() {
     try {
-      const noteList = await this.#fetchAllNotes();
-      if (typeof noteList !== "undefined") {
-        noteList.seeAllTitles();
-        this.dbConnector.close();
+      const notes = await this.dbConnector.fetchAllNotes();
+      if (!notes) {
+        return;
       }
+      const noteList = new NoteList(notes);
+      noteList.seeAllTitles();
+      this.dbConnector.close();
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
@@ -38,15 +40,15 @@ export class Controller {
 
   async seeNote() {
     try {
-      const noteList = await this.#fetchAllNotes();
-      if (typeof noteList !== "undefined") {
-        const note = await noteList.selectNote(
-          "Choose a note you want to see:",
-        );
-        console.log(note.title);
-        console.log(note.content);
-        this.dbConnector.close();
+      const notes = await this.dbConnector.fetchAllNotes();
+      if (!notes) {
+        return;
       }
+      const noteList = new NoteList(notes);
+      const note = await noteList.selectNote("Choose a note you want to see:");
+      console.log(note.title);
+      console.log(note.content);
+      this.dbConnector.close();
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
@@ -59,18 +61,18 @@ export class Controller {
 
   async deleteNote() {
     try {
-      const noteList = await this.#fetchAllNotes();
-      if (typeof noteList !== "undefined") {
-        const note = await noteList.selectNote(
-          "Choose a memo you want to delete:",
-        );
-        this.dbConnector.deleteNote(note.id);
-        this.dbConnector.close();
+      const notes = await this.dbConnector.fetchAllNotes();
+      if (!notes) {
+        return;
       }
+      const noteList = new NoteList(notes);
+      const note = await noteList.selectNote(
+        "Choose a memo you want to delete:",
+      );
+      this.dbConnector.deleteNote(note.id);
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
-        this.dbConnector.close();
       } else {
         throw err;
       }
@@ -96,7 +98,6 @@ export class Controller {
             lines[0] = "NoTitle";
           }
           this.dbConnector.addNote(lines);
-          this.dbConnector.close();
           rl.close();
           resolve();
         } else {
@@ -106,20 +107,10 @@ export class Controller {
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
-        this.dbConnector.close();
       } else {
         throw err;
       }
     }
-  }
-
-  async #fetchAllNotes() {
-    const notes = await this.dbConnector.fetchAllNotes();
-    if (notes.length === 0) {
-      console.log("There are no notes yet.");
-      return;
-    }
-    return new NoteList(notes);
   }
 
   #promiseBasedReadlineOn = (rl, event, callback) => {

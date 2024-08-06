@@ -16,14 +16,29 @@ export class DatabaseConnector {
       lines[0],
       lines.slice(1).join("\n"),
     ]);
+    this.#promiseBasedClose();
   }
 
-  fetchAllNotes() {
-    return this.#promiseBasedAll("SELECT * FROM notes ORDER BY id ASC", []);
+  // fetchAllNotes() {
+  //   return this.#promiseBasedAll("SELECT * FROM notes ORDER BY id ASC", []);
+  // }
+
+  async fetchAllNotes() {
+    const notes = await this.#promiseBasedAll(
+      "SELECT * FROM notes ORDER BY id ASC",
+      [],
+    );
+    if (notes.length === 0) {
+      console.log("There are no notes yet.");
+      this.#promiseBasedClose();
+      return;
+    }
+    return notes;
   }
 
   deleteNote(id) {
     this.#promiseBasedRun("DELETE FROM notes WHERE id = ?", [id]);
+    this.#promiseBasedClose();
   }
 
   close() {
