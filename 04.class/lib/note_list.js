@@ -50,6 +50,8 @@ export class NoteList {
       } else {
         throw err;
       }
+    } finally {
+      this.dbConnector.close();
     }
   }
 
@@ -64,10 +66,11 @@ export class NoteList {
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
-        this.dbConnector.close();
       } else {
         throw err;
       }
+    } finally {
+      this.dbConnector.close();
     }
   }
 
@@ -115,18 +118,16 @@ export class NoteList {
       if (!notes) {
         return;
       }
-
       const note = await this.#userSelect(notes, messageText);
       callback(note);
-
-      this.dbConnector.close();
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
-        this.dbConnector.close();
       } else {
         throw err;
       }
+    } finally {
+      this.dbConnector.close();
     }
   }
 }

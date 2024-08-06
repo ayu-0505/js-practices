@@ -16,7 +16,6 @@ export class DatabaseConnector {
       lines[0],
       lines.slice(1).join("\n"),
     ]);
-    this.#promiseBasedClose();
   }
 
   async fetchAllNotes() {
@@ -34,7 +33,6 @@ export class DatabaseConnector {
 
   deleteNote(id) {
     this.#promiseBasedRun("DELETE FROM notes WHERE id = ?", [id]);
-    // this.#promiseBasedClose();
   }
 
   close() {
