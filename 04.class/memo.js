@@ -1,18 +1,18 @@
 #! /usr/bin/env node
 import minimist from "minimist";
-import { Controller } from "./lib/controller.js";
+import { NoteList } from "./lib/note_list.js";
 
-const controller = new Controller();
+const noteList = new NoteList();
 
-controller.createTable();
+noteList.createTable();
 
 const options = minimist(process.argv.slice(2));
 if (options.l) {
-  await controller.seeAllTitles();
+  await noteList.seeAllTitles();
 } else if (options.r) {
-  await controller.seeNote();
+  await noteList.seeNote();
 } else if (options.d) {
-  await controller.deleteNote();
+  await noteList.deleteNote();
 } else {
-  await controller.createNote();
+  await noteList.createNote();
 }

@@ -34,7 +34,7 @@ export class DatabaseConnector {
 
   deleteNote(id) {
     this.#promiseBasedRun("DELETE FROM notes WHERE id = ?", [id]);
-    this.#promiseBasedClose();
+    // this.#promiseBasedClose();
   }
 
   close() {
