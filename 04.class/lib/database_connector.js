@@ -19,10 +19,6 @@ export class DatabaseConnector {
     this.#promiseBasedClose();
   }
 
-  // fetchAllNotes() {
-  //   return this.#promiseBasedAll("SELECT * FROM notes ORDER BY id ASC", []);
-  // }
-
   async fetchAllNotes() {
     const notes = await this.#promiseBasedAll(
       "SELECT * FROM notes ORDER BY id ASC",
