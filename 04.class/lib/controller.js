@@ -24,10 +24,12 @@ export class Controller {
       const noteList = await this.#fetchAllNotes();
       if (typeof noteList !== "undefined") {
         noteList.seeAllTitles();
+        this.dbConnector.close();
       }
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
+        this.dbConnector.close();
       } else {
         throw err;
       }
@@ -43,10 +45,12 @@ export class Controller {
         );
         console.log(note.title);
         console.log(note.content);
+        this.dbConnector.close();
       }
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
+        this.dbConnector.close();
       } else {
         throw err;
       }
@@ -61,10 +65,12 @@ export class Controller {
           "Choose a memo you want to delete:",
         );
         this.dbConnector.deleteNote(note.id);
+        this.dbConnector.close();
       }
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
+        this.dbConnector.close();
       } else {
         throw err;
       }
@@ -90,6 +96,7 @@ export class Controller {
             lines[0] = "NoTitle";
           }
           this.dbConnector.addNote(lines);
+          this.dbConnector.close();
           rl.close();
           resolve();
         } else {
@@ -99,18 +106,7 @@ export class Controller {
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
-      } else {
-        throw err;
-      }
-    }
-  }
-
-  async close() {
-    try {
-      this.dbConnector.close();
-    } catch (err) {
-      if (err instanceof Error && err.code === "SQLITE_ERROR") {
-        console.error(err);
+        this.dbConnector.close();
       } else {
         throw err;
       }

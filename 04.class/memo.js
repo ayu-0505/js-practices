@@ -16,4 +16,3 @@ if (options.l) {
 } else {
   await controller.createNote();
 }
-await controller.close();
