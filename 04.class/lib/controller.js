@@ -1,15 +1,15 @@
 import readline from "readline";
-import { Connect } from "./connect.js";
+import { DatabaseConnector } from "./database_connector.js";
 import { NoteList } from "./note_list.js";
 
 export class Controller {
   constructor() {
-    this.connect = new Connect();
+    this.dbConnector = new DatabaseConnector();
   }
 
   async createTable() {
     try {
-      this.connect.createTable();
+      this.dbConnector.createTable();
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
@@ -60,7 +60,7 @@ export class Controller {
         const note = await noteList.selectNote(
           "Choose a memo you want to delete:",
         );
-        this.connect.deleteNote(note.id);
+        this.dbConnector.deleteNote(note.id);
       }
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
@@ -89,7 +89,7 @@ export class Controller {
           if (!lines[0]) {
             lines[0] = "NoTitle";
           }
-          this.connect.addNote(lines);
+          this.dbConnector.addNote(lines);
           rl.close();
           resolve();
         } else {
@@ -107,7 +107,7 @@ export class Controller {
 
   async close() {
     try {
-      this.connect.close();
+      this.dbConnector.close();
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
@@ -118,7 +118,7 @@ export class Controller {
   }
 
   async #fetchAllNotes() {
-    const notes = await this.connect.fetchAllNotes();
+    const notes = await this.dbConnector.fetchAllNotes();
     if (notes.length === 0) {
       console.log("There are no notes yet.");
       return;
