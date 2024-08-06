@@ -1,6 +1,6 @@
 import readline from "readline";
 import { DatabaseConnector } from "./database_connector.js";
-import { NoteList } from "./note_list.js";
+import Enquirer from "enquirer";
 
 export class Controller {
   constructor() {
@@ -25,8 +25,7 @@ export class Controller {
       if (!notes) {
         return;
       }
-      const noteList = new NoteList(notes);
-      noteList.seeAllTitles();
+      notes.forEach((note) => console.log(note.title));
       this.dbConnector.close();
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
@@ -44,8 +43,10 @@ export class Controller {
       if (!notes) {
         return;
       }
-      const noteList = new NoteList(notes);
-      const note = await noteList.selectNote("Choose a note you want to see:");
+      const note = await this.#selectNote(
+        notes,
+        "Choose a note you want to see:",
+      );
       console.log(note.title);
       console.log(note.content);
       this.dbConnector.close();
@@ -65,8 +66,8 @@ export class Controller {
       if (!notes) {
         return;
       }
-      const noteList = new NoteList(notes);
-      const note = await noteList.selectNote(
+      const note = await this.#selectNote(
+        notes,
         "Choose a memo you want to delete:",
       );
       this.dbConnector.deleteNote(note.id);
@@ -120,4 +121,21 @@ export class Controller {
       });
     });
   };
+
+  async #selectNote(notes, messageText) {
+    const question = {
+      type: "select",
+      name: "toSeeNote",
+      message: messageText,
+      choices: notes.map((note) => ({
+        name: note.title,
+        value: note,
+      })),
+      result() {
+        return this.focused.value;
+      },
+    };
+    const answer = await Enquirer.prompt(question);
+    return answer.toSeeNote;
+  }
 }
