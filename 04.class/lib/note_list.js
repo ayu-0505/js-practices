@@ -1,10 +1,10 @@
 import readline from "readline";
-import { DatabaseConnector } from "./database_connector.js";
+// import { DatabaseConnector } from "./database_connector.js";
 import Enquirer from "enquirer";
 
 export class NoteList {
-  constructor() {
-    this.dbConnector = new DatabaseConnector();
+  constructor(dbConnector) {
+    this.dbConnector = dbConnector;
   }
 
   async createTable() {
@@ -62,7 +62,6 @@ export class NoteList {
         return;
       }
       notes.forEach((note) => console.log(note.title));
-      this.dbConnector.close();
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
