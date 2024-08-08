@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 import minimist from "minimist";
-import * as fs from "node:fs/promises";
+import { existsSync } from "node:fs";
+import { writeFile } from "node:fs/promises";
 import { DatabaseConnector } from "./lib/database_connector.js";
 import { NoteList } from "./lib/note_list.js";
 
@@ -12,24 +13,19 @@ class MemoApp {
 
   static async initialize() {
     const memoApp = new MemoApp();
-    try {
-      await fs.access(memoApp.filePath);
-    } catch (err) {
-      await fs.writeFile(memoApp.filePath, "");
-      if (err instanceof Error && err.code === "SQLITE_ERROR") {
-        console.error(err);
-      } else {
-        throw err;
-      }
+
+    if (!existsSync(memoApp.filePath)) {
+      await writeFile(memoApp.filePath, "");
     }
     memoApp.dbConnector = new DatabaseConnector(memoApp.filePath);
-    memoApp.createTable();
+    await memoApp.createTable();
+
     return memoApp;
   }
 
   async createTable() {
     try {
-      this.dbConnector.createTable();
+      await this.dbConnector.createTable();
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);

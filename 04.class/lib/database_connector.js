@@ -5,8 +5,8 @@ export class DatabaseConnector {
     this.db = new sqlite3.Database(filePath);
   }
 
-  createTable() {
-    this.#promiseBasedRun(
+  async createTable() {
+    await this.#promiseBasedRun(
       "CREATE TABLE IF NOT EXISTS notes(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT)",
     );
   }
