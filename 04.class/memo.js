@@ -17,15 +17,10 @@ class MemoApp {
     if (!existsSync(memoApp.filePath)) {
       await writeFile(memoApp.filePath, "");
     }
+
     memoApp.dbConnector = new DatabaseConnector(memoApp.filePath);
-    await memoApp.createTable();
-
-    return memoApp;
-  }
-
-  async createTable() {
     try {
-      await this.dbConnector.createTable();
+      await memoApp.dbConnector.createTable();
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
@@ -33,6 +28,8 @@ class MemoApp {
         throw err;
       }
     }
+
+    return memoApp;
   }
 
   async run() {
