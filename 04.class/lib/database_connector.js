@@ -1,8 +1,8 @@
 import sqlite3 from "sqlite3";
 
 export class DatabaseConnector {
-  constructor() {
-    this.db = new sqlite3.Database("./db/memo.db");
+  constructor(filePath) {
+    this.db = new sqlite3.Database(filePath);
   }
 
   createTable() {
