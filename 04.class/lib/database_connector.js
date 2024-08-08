@@ -25,7 +25,6 @@ export class DatabaseConnector {
     );
     if (notes.length === 0) {
       console.log("There are no notes yet.");
-      this.#promiseBasedClose();
       return;
     }
     return notes;
