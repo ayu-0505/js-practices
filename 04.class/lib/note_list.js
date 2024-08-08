@@ -37,8 +37,6 @@ export class NoteList {
       } else {
         throw err;
       }
-    } finally {
-      this.dbConnector.close();
     }
   }
 
@@ -55,8 +53,6 @@ export class NoteList {
       } else {
         throw err;
       }
-    } finally {
-      this.dbConnector.close();
     }
   }
 
@@ -112,8 +108,6 @@ export class NoteList {
       } else {
         throw err;
       }
-    } finally {
-      this.dbConnector.close();
     }
   }
 }
