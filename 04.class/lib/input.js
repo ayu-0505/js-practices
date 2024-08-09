@@ -9,23 +9,23 @@ export class Input {
   }
 
   async askNote() {
-    const lines = [];
+    const textLines = [];
     await this.#promiseBasedReadlineOn("line", (input, resolve) => {
       if (input === "EOF") {
         this.rl.close();
-        if (lines.length === 0) {
+        if (textLines.length === 0) {
           resolve();
           return;
         }
-        if (!lines[0]) {
-          lines[0] = "NoTitle";
+        if (!textLines[0]) {
+          textLines[0] = "NoTitle";
         }
         resolve();
       } else {
-        lines.push(input);
+        textLines.push(input);
       }
     });
-    return lines;
+    return textLines;
   }
 
   #promiseBasedReadlineOn = (event, callback) => {

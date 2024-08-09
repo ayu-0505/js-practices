@@ -72,7 +72,7 @@ export class NoteList {
   async #askUserSelection(notes, messageText) {
     const question = {
       type: "select",
-      name: "toSeeNote",
+      name: "userSelection",
       message: messageText,
       choices: notes.map((note) => ({
         name: note.title,
@@ -83,6 +83,6 @@ export class NoteList {
       },
     };
     const answer = await Enquirer.prompt(question);
-    return answer.toSeeNote;
+    return answer.userSelection;
   }
 }

@@ -14,11 +14,11 @@ export class DatabaseConnector {
     this.#promiseBasedClose(db);
   }
 
-  addNote(lines) {
+  addNote(textLines) {
     const db = new sqlite3.Database(this.filePath);
     this.#promiseBasedRun(db, "INSERT INTO notes(title, content) VALUES(?,?)", [
-      lines[0],
-      lines.slice(1).join("\n"),
+      textLines[0],
+      textLines.slice(1).join("\n"),
     ]);
     this.#promiseBasedClose(db);
   }
