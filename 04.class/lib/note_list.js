@@ -1,26 +1,9 @@
-// import readline from "readline";
 import Enquirer from "enquirer";
 import { Input } from "./input.js";
+
 export class NoteList {
   constructor(dbConnector) {
     this.dbConnector = dbConnector;
-  }
-
-  async createNote() {
-    const input = new Input();
-    try {
-      const textLines = await input.askNote();
-      if (textLines.length === 0) {
-        return;
-      }
-      this.dbConnector.addNote(textLines);
-    } catch (err) {
-      if (err instanceof Error && err.code === "SQLITE_ERROR") {
-        console.error(err);
-      } else {
-        throw err;
-      }
-    }
   }
 
   async seeAllTitles() {
@@ -50,6 +33,23 @@ export class NoteList {
     this.#selectNote("Choose a memo you want to delete", (note) => {
       this.dbConnector.deleteNote(note.id);
     });
+  }
+
+  async createNote() {
+    const input = new Input();
+    try {
+      const textLines = await input.askNote();
+      if (textLines.length === 0) {
+        return;
+      }
+      this.dbConnector.addNote(textLines);
+    } catch (err) {
+      if (err instanceof Error && err.code === "SQLITE_ERROR") {
+        console.error(err);
+      } else {
+        throw err;
+      }
+    }
   }
 
   async #selectNote(messageText, callback) {
