@@ -58,8 +58,8 @@ export class NoteList {
       if (!notes) {
         return;
       }
-      const note = await this.#userSelect(notes, messageText);
-      callback(note);
+      const selectedNote = await this.#askUserSelection(notes, messageText);
+      callback(selectedNote);
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
@@ -69,7 +69,7 @@ export class NoteList {
     }
   }
 
-  async #userSelect(notes, messageText) {
+  async #askUserSelection(notes, messageText) {
     const question = {
       type: "select",
       name: "toSeeNote",
