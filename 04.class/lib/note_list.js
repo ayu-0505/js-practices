@@ -6,7 +6,7 @@ export class NoteList {
     this.dbConnector = dbConnector;
   }
 
-  async seeAllTitles() {
+  async seeAll() {
     try {
       const notes = await this.dbConnector.fetchAllNotes();
       if (!notes) {
@@ -22,23 +22,23 @@ export class NoteList {
     }
   }
 
-  async seeNote() {
-    this.#selectNote("Choose a note you want to see:", (note) => {
+  async see() {
+    this.#select("Choose a note you want to see:", (note) => {
       console.log(note.title);
       console.log(note.content);
     });
   }
 
-  async deleteNote() {
-    this.#selectNote("Choose a memo you want to delete", (note) => {
+  async delete() {
+    this.#select("Choose a memo you want to delete", (note) => {
       this.dbConnector.deleteNote(note.id);
     });
   }
 
-  async createNote() {
+  async create() {
     const input = new Input();
     try {
-      const textLines = await input.askNote();
+      const textLines = await input.ask();
       if (textLines.length === 0) {
         return;
       }
@@ -52,7 +52,7 @@ export class NoteList {
     }
   }
 
-  async #selectNote(messageText, callback) {
+  async #select(messageText, callback) {
     try {
       const notes = await this.dbConnector.fetchAllNotes();
       if (!notes) {

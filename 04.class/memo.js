@@ -10,13 +10,13 @@ class MemoApp {
     const noteList = new NoteList(noteDatabase);
     const options = minimist(process.argv.slice(2));
     if (options.l) {
-      await noteList.seeAllTitles();
+      await noteList.seeAll();
     } else if (options.r) {
-      await noteList.seeNote();
+      await noteList.see();
     } else if (options.d) {
-      await noteList.deleteNote();
+      await noteList.delete();
     } else {
-      await noteList.createNote();
+      await noteList.create();
     }
   }
 }
