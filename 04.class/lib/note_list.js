@@ -2,13 +2,13 @@ import Enquirer from "enquirer";
 import { Input } from "./input.js";
 
 export class NoteList {
-  constructor(dbConnector) {
-    this.dbConnector = dbConnector;
+  constructor(noteDatabase) {
+    this.noteDatabase = noteDatabase;
   }
 
   async seeAll() {
     try {
-      const notes = await this.dbConnector.fetchAllNotes();
+      const notes = await this.noteDatabase.fetchAll();
       if (!notes) {
         return;
       }
@@ -31,7 +31,7 @@ export class NoteList {
 
   async delete() {
     this.#select("Choose a memo you want to delete", (note) => {
-      this.dbConnector.deleteNote(note.id);
+      this.noteDatabase.delete(note.id);
     });
   }
 
@@ -42,7 +42,7 @@ export class NoteList {
       if (textLines.length === 0) {
         return;
       }
-      this.dbConnector.addNote(textLines);
+      this.noteDatabase.add(textLines);
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
@@ -54,7 +54,7 @@ export class NoteList {
 
   async #select(messageText, callback) {
     try {
-      const notes = await this.dbConnector.fetchAllNotes();
+      const notes = await this.noteDatabase.fetchAll();
       if (!notes) {
         return;
       }

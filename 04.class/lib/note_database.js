@@ -26,7 +26,7 @@ export class NoteDatabase {
     return noteDatabase;
   }
 
-  addNote(textLines) {
+  add(textLines) {
     const db = new sqlite3.Database(this.filePath);
     this.#promiseBasedRun(db, "INSERT INTO notes(title, content) VALUES(?,?)", [
       textLines[0],
@@ -35,7 +35,7 @@ export class NoteDatabase {
     this.#promiseBasedClose(db);
   }
 
-  async fetchAllNotes() {
+  async fetchAll() {
     const db = new sqlite3.Database(this.filePath);
     const notes = await this.#promiseBasedAll(
       db,
@@ -51,7 +51,7 @@ export class NoteDatabase {
     return notes;
   }
 
-  deleteNote(id) {
+  delete(id) {
     const db = new sqlite3.Database(this.filePath);
     this.#promiseBasedRun(db, "DELETE FROM notes WHERE id = ?", [id]);
     this.#promiseBasedClose(db);
