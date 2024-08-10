@@ -8,7 +8,7 @@ export class Input {
     });
   }
 
-  async askNote() {
+  async ask() {
     const textLines = [];
     await this.#promiseBasedReadlineOn("line", (input, resolve) => {
       if (input === "EOF") {
