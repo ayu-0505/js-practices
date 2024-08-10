@@ -1,13 +1,13 @@
 #! /usr/bin/env node
 
 import minimist from "minimist";
-import { DatabaseConnector } from "./lib/database_connector.js";
+import { NoteDatabase } from "./lib/note_database.js";
 import { NoteList } from "./lib/note_list.js";
 
 class MemoApp {
   async run() {
-    const noteDb = await DatabaseConnector.initialize();
-    const noteList = new NoteList(noteDb);
+    const noteDatabase = await NoteDatabase.initialize();
+    const noteList = new NoteList(noteDatabase);
     const options = minimist(process.argv.slice(2));
     if (options.l) {
       await noteList.seeAllTitles();

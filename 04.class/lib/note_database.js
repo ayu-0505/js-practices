@@ -2,19 +2,19 @@ import sqlite3 from "sqlite3";
 import { existsSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 
-export class DatabaseConnector {
+export class NoteDatabase {
   constructor() {
     this.filePath = "./db/memo.db";
   }
 
   static async initialize() {
-    const noteDb = new DatabaseConnector();
-    if (!existsSync(noteDb.filePath)) {
-      await writeFile(noteDb.filePath, "");
+    const noteDatabase = new NoteDatabase();
+    if (!existsSync(noteDatabase.filePath)) {
+      await writeFile(noteDatabase.filePath, "");
     }
 
     try {
-      await noteDb.#createTable();
+      await noteDatabase.#createTable();
     } catch (err) {
       if (err instanceof Error && err.code === "SQLITE_ERROR") {
         console.error(err);
@@ -23,7 +23,7 @@ export class DatabaseConnector {
       }
     }
 
-    return noteDb;
+    return noteDatabase;
   }
 
   addNote(textLines) {
