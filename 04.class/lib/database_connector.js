@@ -1,17 +1,29 @@
 import sqlite3 from "sqlite3";
+import { existsSync } from "node:fs";
+import { writeFile } from "node:fs/promises";
 
 export class DatabaseConnector {
-  constructor(filePath) {
-    this.filePath = filePath;
+  constructor() {
+    this.filePath = "./db/memo.db";
   }
 
-  async createTable() {
-    const db = new sqlite3.Database(this.filePath);
-    await this.#promiseBasedRun(
-      db,
-      "CREATE TABLE IF NOT EXISTS notes(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT)",
-    );
-    this.#promiseBasedClose(db);
+  static async initialize() {
+    const noteDb = new DatabaseConnector();
+    if (!existsSync(noteDb.filePath)) {
+      await writeFile(noteDb.filePath, "");
+    }
+
+    try {
+      await noteDb.#createTable();
+    } catch (err) {
+      if (err instanceof Error && err.code === "SQLITE_ERROR") {
+        console.error(err);
+      } else {
+        throw err;
+      }
+    }
+
+    return noteDb;
   }
 
   addNote(textLines) {
@@ -42,6 +54,15 @@ export class DatabaseConnector {
   deleteNote(id) {
     const db = new sqlite3.Database(this.filePath);
     this.#promiseBasedRun(db, "DELETE FROM notes WHERE id = ?", [id]);
+    this.#promiseBasedClose(db);
+  }
+
+  async #createTable() {
+    const db = new sqlite3.Database(this.filePath);
+    await this.#promiseBasedRun(
+      db,
+      "CREATE TABLE IF NOT EXISTS notes(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT)",
+    );
     this.#promiseBasedClose(db);
   }
 
