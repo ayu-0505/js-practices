@@ -26,15 +26,6 @@ export class NoteDatabase {
     return noteDatabase;
   }
 
-  add(textLines) {
-    const db = new sqlite3.Database(this.filePath);
-    this.#promiseBasedRun(db, "INSERT INTO notes(title, content) VALUES(?,?)", [
-      textLines[0],
-      textLines.slice(1).join("\n"),
-    ]);
-    this.#promiseBasedClose(db);
-  }
-
   async fetchAll() {
     const db = new sqlite3.Database(this.filePath);
     const notes = await this.#promiseBasedAll(
@@ -54,6 +45,15 @@ export class NoteDatabase {
   delete(id) {
     const db = new sqlite3.Database(this.filePath);
     this.#promiseBasedRun(db, "DELETE FROM notes WHERE id = ?", [id]);
+    this.#promiseBasedClose(db);
+  }
+
+  add(textLines) {
+    const db = new sqlite3.Database(this.filePath);
+    this.#promiseBasedRun(db, "INSERT INTO notes(title, content) VALUES(?,?)", [
+      textLines[0],
+      textLines.slice(1).join("\n"),
+    ]);
     this.#promiseBasedClose(db);
   }
 
