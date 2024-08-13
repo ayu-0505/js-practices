@@ -5,8 +5,12 @@ import { NoteDatabase } from "./lib/note_database.js";
 import { NoteList } from "./lib/note_list.js";
 
 class MemoApp {
+  constructor() {
+    this.databaseFilePath = "./db/memo.db";
+  }
+
   async run() {
-    const noteDatabase = await NoteDatabase.initialize();
+    const noteDatabase = await NoteDatabase.initialize(this.databaseFilePath);
     const noteList = new NoteList(noteDatabase);
     const options = minimist(process.argv.slice(2));
     if (options.l) {

@@ -3,12 +3,12 @@ import { existsSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 
 export class NoteDatabase {
-  constructor() {
-    this.filePath = "./db/memo.db";
+  constructor(filePath) {
+    this.filePath = filePath;
   }
 
-  static async initialize() {
-    const noteDatabase = new NoteDatabase();
+  static async initialize(filePath) {
+    const noteDatabase = new NoteDatabase(filePath);
     if (!existsSync(noteDatabase.filePath)) {
       await writeFile(noteDatabase.filePath, "");
     }
